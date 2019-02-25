@@ -1,5 +1,6 @@
 require 'active_support'
 require 'active_support/core_ext'
+# require 'byebug'
 
 class RecurringMoment
   def initialize(start:, interval:, period:)
@@ -10,21 +11,26 @@ class RecurringMoment
 
   def match(date)
     current = @start
-
-    while current < date
+    counter = 1
+    while current <= date
       if current == date
         return true
       end
-
+      # puts counter
+      # puts current
+      # puts @period
+      # # puts date
+      #
+      # puts '-------'
       if @period == 'monthly'
-        current = current.advance(weeks: @interval)
-      elsif @period = 'weekly'
-        current = current.advance(months: @interval)
+        current = @start.advance(months: @interval * counter )
+      elsif @period == 'weekly'
+        current = @start.advance(weeks: @interval * counter )
       elsif @period == 'daily'
-        current = current.advance(days: @interval)
+        current = @start.advance(days: @interval * counter )
       end
+      counter += 1
     end
-
     return false
   end
 end

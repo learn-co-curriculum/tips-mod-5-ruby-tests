@@ -1,5 +1,6 @@
 require 'rspec'
 require_relative 'recurring_moment'
+# require 'pry'
 
 describe RecurringMoment do
   describe '#match' do
@@ -11,7 +12,8 @@ describe RecurringMoment do
     may5 = DateTime.parse('May 5, 2018')
     nov12 = DateTime.parse('Nov 12, 2018')
     dec31 = DateTime.parse('Dec 31, 2018')
-    dates = [jan1, jan10, jan31, feb1, feb28, may5, nov12, dec31]
+    # dates = [jan1, jan10, jan31, feb1, feb28, may5, nov12, dec31]
+    dates = [jan31, dec31]
 
     context 'daily' do
       let (:period) { 'daily' }
@@ -123,6 +125,7 @@ describe RecurringMoment do
           it "correctly matches a one month interval from #{start.strftime('%D')}" do
             recurrence = RecurringMoment.new(period: period, interval: interval, start: start)
             expect(recurrence.match(start.advance(months: 1))).to eq true
+            # binding.pry
             expect(recurrence.match(start.advance(months: 3))).to eq true
             expect(recurrence.match(start.advance(months: 6))).to eq true
             expect(recurrence.match(start.advance(days: 6))).to eq false
